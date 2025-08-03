@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Scale Generator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="data:,">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Type Scale Generator</h1>
+            <p>Create beautiful, responsive typography with ease</p>
+        </header>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="baseFontSize">Base Font Size (px)</label>
+                <input type="number" id="baseFontSize" value="16" min="8" max="32">
+            </div>
+            
+            <div class="control-group">
+                <label for="scaleFactor">Scale Factor</label>
+                <select id="scaleFactor">
+                    <option value="1.067">Minor Second (1.067)</option>
+                    <option value="1.125">Major Second (1.125)</option>
+                    <option value="1.200" selected>Major Third (1.200)</option>
+                    <option value="1.250">Major Third (1.250)</option>
+                    <option value="1.333">Perfect Fourth (1.333)</option>
+                    <option value="1.414">Augmented Fourth (1.414)</option>
+                    <option value="1.500">Perfect Fifth (1.500)</option>
+                    <option value="1.618">Golden Ratio (1.618)</option>
+                    <option value="custom">Custom...</option>
+                </select>
+                <input type="number" id="customScale" class="hidden" step="0.001" min="1" max="2" value="1.2">
+            </div>
+
+            <div class="control-group">
+                <label>Preview Elements</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="previewElements" value="h1" checked> H1</label>
+                    <label><input type="checkbox" name="previewElements" value="h2" checked> H2</label>
+                    <label><input type="checkbox" name="previewElements" value="h3" checked> H3</label>
+                    <label><input type="checkbox" name="previewElements" value="h4" checked> H4</label>
+                    <label><input type="checkbox" name="previewElements" value="h5" checked> H5</label>
+                    <label><input type="checkbox" name="previewElements" value="h6" checked> H6</label>
+                    <label><input type="checkbox" name="previewElements" value="p" checked> Paragraph</label>
+                    <label><input type="checkbox" name="previewElements" value="small" checked> Small</label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="switch">
+                    <input type="checkbox" id="unitToggle">
+                    <span class="slider round"></span>
+                    <span class="label-text">Use REM units</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="preview">
+            <h2>Preview</h2>
+            <div id="typePreview" class="preview-container">
+                <!-- Preview elements will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="export">
+            <h2>SCSS Variables</h2>
+            <div class="code-container">
+                <pre id="scssCode">
+// Type Scale Variables
+$base-font-size: 16px;
+$scale-factor: 1.2;
+
+// Type Scale Map
+$type-scale: (
+  h1: 3.815rem,
+  h2: 3.052rem,
+  h3: 2.441rem,
+  h4: 1.953rem,
+  h5: 1.563rem,
+  h6: 1.25rem,
+  p: 1rem,
+  small: 0.8rem
+);
+
+// Usage Example:
+// h1 { font-size: map-get($type-scale, h1); }</pre>
+                <button id="copyScss" class="copy-button">Copy SCSS</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
