@@ -1,0 +1,16 @@
+{
+  "name": "typescale",
+  "version": "1.0.0",
+  "description": "A tool for generating responsive typography scales",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "sass css/styles.scss css/styles.css",
+    "watch:css": "sass --watch css/styles.scss:css/styles.css",
+    "start": "live-server"
+  },
+  "private": true,
+  "devDependencies": {
+    "sass": "^1.66.1",
+    "live-server": "^1.2.2"
+  }
+}
