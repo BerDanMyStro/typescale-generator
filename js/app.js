@@ -3,6 +3,7 @@ $(document).ready(function() {
     const $baseFontSize = $('#baseFontSize');
     const $scaleFactor = $('#scaleFactor');
     const $customScale = $('#customScale');
+    const $fontFamily = $('#fontFamily');
     const $previewElements = $('input[name="previewElements"]');
     const $unitToggle = $('#unitToggle');
     const $fluidToggle = $('#fluidToggle');
@@ -16,6 +17,7 @@ $(document).ready(function() {
     // Default values
     let baseFontSize = parseFloat($baseFontSize.val());
     let scaleFactor = parseFloat($scaleFactor.val());
+    let selectedFont = $fontFamily.val();
     let useRem = false;
     let useFluid = false;
     let minViewport = parseFloat($minViewport.val());
@@ -38,6 +40,7 @@ $(document).ready(function() {
         $minViewport.on('input', updateFluidSettings);
         $maxViewport.on('input', updateFluidSettings);
         $copyButton.on('click', copyScssToClipboard);
+        $fontFamily.on('change', updateFontFamily);
         
         // Initial render
         updatePreview();
@@ -87,6 +90,34 @@ $(document).ready(function() {
         updatePreview();
     }
     
+    // Update font family
+    function updateFontFamily() {
+        selectedFont = $(this).val();
+        loadGoogleFont(selectedFont);
+        updatePreview();
+    }
+    
+    // Load Google Font dynamically
+    function loadGoogleFont(fontName) {
+        // Skip loading for system fonts
+        if (fontName === 'Inter') return;
+        
+        // Format font name for Google Fonts URL
+        const formattedFontName = fontName.replace(/\s+/g, '+');
+        const fontUrl = `https://fonts.googleapis.com/css2?family=${formattedFontName}:wght@400;500;600;700&display=swap`;
+        
+        // Check if font is already loaded
+        const existingLink = document.querySelector(`link[href*="${formattedFontName}"]`);
+        if (existingLink) return;
+        
+        // Create and append link element
+        const linkElement = document.createElement('link');
+        linkElement.href = fontUrl;
+        linkElement.rel = 'stylesheet';
+        linkElement.type = 'text/css';
+        document.head.appendChild(linkElement);
+    }
+    
     // Calculate the type scale
     function calculateScale() {
         baseFontSize = parseFloat($baseFontSize.val()) || 16;
@@ -108,9 +139,9 @@ $(document).ready(function() {
             // Calculate fluid sizes if enabled
             let fluidValue = null;
             if (useFluid) {
-                // The minimum size is 10% smaller than the target size at smaller screens
-                const minSize = fontSize * 0.9;
-                const maxSize = fontSize;
+                // Create a proper fluid range: smaller size for min viewport, larger for max viewport
+                const minSize = fontSize * 0.8;  // 20% smaller at min viewport
+                const maxSize = fontSize * 1.1;  // 10% larger at max viewport
                 
                 // Calculate the fluid value using the CSS clamp formula
                 fluidValue = calculateFluidValue(minSize, maxSize, minViewport, maxViewport);
@@ -136,7 +167,7 @@ $(document).ready(function() {
         
         // Format the preferred value as a calc() expression
         // calc([y-intercept] + [slope] * 100vw)
-        const preferredValue = `${yIntercept.toFixed(3)}${useRem ? 'rem' : 'px'} + ${(slope * 100).toFixed(3)}${useRem ? 'rem' : 'px'} * 1vw`;
+        const preferredValue = `${yIntercept.toFixed(3)}${useRem ? 'rem' : 'px'} + ${(slope * 100).toFixed(3)}vw`;
         
         // Format min and max sizes
         const minSizeValue = useRem ? (minSize / 16).toFixed(3) : Math.round(minSize);
@@ -190,7 +221,7 @@ $(document).ready(function() {
             previewHtml += `
                 <div class="preview-item">
                     <span class="label">${fontSizeLabel}</span>
-                    <${el} class="preview-content" style="font-size: ${fontSizeValue}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px;">
+                    <${el} class="preview-content" style="font-size: ${fontSizeValue}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px; font-family: ${selectedFont};">
                         ${getSampleText(el)}
                     </${el}>
                 </div>
@@ -230,6 +261,9 @@ $(document).ready(function() {
         
         // Scale factor
         scss += `$scale-factor: ${scaleFactor.toFixed(3)};\n`;
+        
+        // Font family
+        scss += `$font-family: ${selectedFont};\n`;
         
         // Add fluid typography variables if enabled
         if (useFluid) {
