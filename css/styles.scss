@@ -79,6 +79,13 @@ header {
     color: darken($secondary-color, 10%);
   }
   
+  .setting-note {
+    font-size: 0.85rem;
+    color: $secondary-color;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+  
   input[type="number"],
   select {
     width: 100%;
@@ -271,6 +278,18 @@ header {
   &:focus {
     outline: none;
     box-shadow: 0 0 0 2px rgba($primary-color, 0.3);
+  }
+}
+
+// Fluid Settings Styles
+.fluid-settings {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  
+  .setting {
+    flex: 1;
+    min-width: 120px;
   }
 }
 

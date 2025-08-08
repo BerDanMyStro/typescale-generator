@@ -59,6 +59,28 @@
                     <span class="label-text">Use REM units</span>
                 </label>
             </div>
+            
+            <div class="control-group">
+                <label class="switch">
+                    <input type="checkbox" id="fluidToggle">
+                    <span class="slider round"></span>
+                    <span class="label-text">Enable fluid type</span>
+                </label>
+            </div>
+            
+            <div id="fluidControls" class="control-group hidden">
+                <div class="fluid-settings">
+                    <div class="setting">
+                        <label for="minViewport">Min Viewport (px)</label>
+                        <input type="number" id="minViewport" value="320" min="280" max="1200">
+                    </div>
+                    <div class="setting">
+                        <label for="maxViewport">Max Viewport (px)</label>
+                        <input type="number" id="maxViewport" value="1200" min="320" max="2560">
+                    </div>
+                </div>
+                <p class="setting-note">Font sizes will scale smoothly between viewport sizes</p>
+            </div>
         </div>
 
         <div class="preview">

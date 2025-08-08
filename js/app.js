@@ -5,6 +5,10 @@ $(document).ready(function() {
     const $customScale = $('#customScale');
     const $previewElements = $('input[name="previewElements"]');
     const $unitToggle = $('#unitToggle');
+    const $fluidToggle = $('#fluidToggle');
+    const $fluidControls = $('#fluidControls');
+    const $minViewport = $('#minViewport');
+    const $maxViewport = $('#maxViewport');
     const $typePreview = $('#typePreview');
     const $scssCode = $('#scssCode');
     const $copyButton = $('#copyScss');
@@ -13,6 +17,9 @@ $(document).ready(function() {
     let baseFontSize = parseFloat($baseFontSize.val());
     let scaleFactor = parseFloat($scaleFactor.val());
     let useRem = false;
+    let useFluid = false;
+    let minViewport = parseFloat($minViewport.val());
+    let maxViewport = parseFloat($maxViewport.val());
     
     // Update scale when base font size changes
     function updateScale() {
@@ -27,6 +34,9 @@ $(document).ready(function() {
         $customScale.on('input', updateCustomScale);
         $previewElements.on('change', updatePreview);
         $unitToggle.on('change', toggleUnit);
+        $fluidToggle.on('change', toggleFluidType);
+        $minViewport.on('input', updateFluidSettings);
+        $maxViewport.on('input', updateFluidSettings);
         $copyButton.on('click', copyScssToClipboard);
         
         // Initial render
@@ -59,6 +69,24 @@ $(document).ready(function() {
         updatePreview();
     }
     
+    // Toggle fluid typography
+    function toggleFluidType() {
+        useFluid = $(this).is(':checked');
+        if (useFluid) {
+            $fluidControls.removeClass('hidden');
+        } else {
+            $fluidControls.addClass('hidden');
+        }
+        updatePreview();
+    }
+    
+    // Update fluid settings
+    function updateFluidSettings() {
+        minViewport = parseFloat($minViewport.val()) || 320;
+        maxViewport = parseFloat($maxViewport.val()) || 1200;
+        updatePreview();
+    }
+    
     // Calculate the type scale
     function calculateScale() {
         baseFontSize = parseFloat($baseFontSize.val()) || 16;
@@ -76,14 +104,46 @@ $(document).ready(function() {
         elements.forEach((el, index) => {
             const steps = getStepsForElement(el);
             const fontSize = baseFontSize * Math.pow(scaleFactor, steps);
+            
+            // Calculate fluid sizes if enabled
+            let fluidValue = null;
+            if (useFluid) {
+                // The minimum size is 10% smaller than the target size at smaller screens
+                const minSize = fontSize * 0.9;
+                const maxSize = fontSize;
+                
+                // Calculate the fluid value using the CSS clamp formula
+                fluidValue = calculateFluidValue(minSize, maxSize, minViewport, maxViewport);
+            }
+            
             scale[el] = {
                 fontSize: fontSize,
+                fluidValue: fluidValue,
                 lineHeight: Math.ceil(fontSize * 1.2 / 8) * 8 / fontSize, // Round to nearest 8px
                 marginBottom: Math.max(8, fontSize * 0.5) // At least 8px margin
             };
         });
         
         return { elements, scale };
+    }
+    
+    // Calculate a fluid typography value using CSS clamp()
+    function calculateFluidValue(minSize, maxSize, minVw, maxVw) {
+        // Calculate the slope for the linear equation: y = mx + b
+        // where m is the slope and b is the y-intercept
+        const slope = (maxSize - minSize) / (maxVw - minVw);
+        const yIntercept = minSize - (slope * minVw);
+        
+        // Format the preferred value as a calc() expression
+        // calc([y-intercept] + [slope] * 100vw)
+        const preferredValue = `${yIntercept.toFixed(3)}${useRem ? 'rem' : 'px'} + ${(slope * 100).toFixed(3)}${useRem ? 'rem' : 'px'} * 1vw`;
+        
+        // Format min and max sizes
+        const minSizeValue = useRem ? (minSize / 16).toFixed(3) : Math.round(minSize);
+        const maxSizeValue = useRem ? (maxSize / 16).toFixed(3) : Math.round(maxSize);
+        
+        // Return the CSS clamp expression
+        return `clamp(${minSizeValue}${useRem ? 'rem' : 'px'}, calc(${preferredValue}), ${maxSizeValue}${useRem ? 'rem' : 'px'})`;
     }
     
     // Get scale steps for each element type
@@ -114,11 +174,23 @@ $(document).ready(function() {
             const lineHeight = size.lineHeight.toFixed(2);
             const marginBottom = Math.round(size.marginBottom);
             
+            // Get the font size value for styling
+            let fontSizeValue;
+            let fontSizeLabel;
+            
+            if (useFluid && size.fluidValue) {
+                fontSizeValue = size.fluidValue;
+                fontSizeLabel = `${el} · fluid (${fontSize}${unit}) · ${lineHeight} · ${marginBottom}px`;
+            } else {
+                fontSizeValue = `${fontSize}${unit}`;
+                fontSizeLabel = `${el} · ${fontSize}${unit} · ${lineHeight} · ${marginBottom}px`;
+            }
+            
             // Create preview item
             previewHtml += `
                 <div class="preview-item">
-                    <span class="label">${el} · ${fontSize}${unit} · ${lineHeight} · ${marginBottom}px</span>
-                    <${el} class="preview-content" style="font-size: ${fontSize}${unit}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px;">
+                    <span class="label">${fontSizeLabel}</span>
+                    <${el} class="preview-content" style="font-size: ${fontSizeValue}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px;">
                         ${getSampleText(el)}
                     </${el}>
                 </div>
@@ -157,7 +229,15 @@ $(document).ready(function() {
         scss += `$base-font-size: ${baseSize}${unit};\n`;
         
         // Scale factor
-        scss += `$scale-factor: ${scaleFactor.toFixed(3)};\n\n`;
+        scss += `$scale-factor: ${scaleFactor.toFixed(3)};\n`;
+        
+        // Add fluid typography variables if enabled
+        if (useFluid) {
+            scss += `$min-viewport-width: ${minViewport}px;\n`;
+            scss += `$max-viewport-width: ${maxViewport}px;\n`;
+        }
+        
+        scss += '\n';
         
         // Type scale map
         scss += '// Type Scale Map\n';
@@ -165,16 +245,38 @@ $(document).ready(function() {
         
         // Add each element to the scale map
         Object.entries(scale).forEach(([element, values]) => {
-            const size = useRem 
-                ? (values.fontSize / 16).toFixed(3) 
-                : Math.round(values.fontSize);
-            scss += `  ${element}: ${size}${unit},\n`;
+            if (useFluid && values.fluidValue) {
+                // Use fluid value directly since it's already a complete CSS expression
+                scss += `  ${element}: ${values.fluidValue},\n`;
+            } else {
+                // Use static size
+                const size = useRem 
+                    ? (values.fontSize / 16).toFixed(3) 
+                    : Math.round(values.fontSize);
+                scss += `  ${element}: ${size}${unit},\n`;
+            }
         });
         
-        // Close the map and add usage example
+        // Close the map
         scss += `);\n\n`;
-        scss += '// Usage Example:\n';
-        scss += '// h1 { font-size: map-get($type-scale, h1); }';
+        
+        // Add usage examples
+        scss += '// Usage Examples:\n';
+        scss += '// h1 { font-size: map-get($type-scale, h1); }\n';
+        
+        // Add mixin for fluid typography if enabled
+        if (useFluid) {
+            scss += '\n// Fluid Typography Mixin\n';
+            scss += '@mixin fluid-type($min-size, $max-size, $min-vw: $min-viewport-width, $max-vw: $max-viewport-width) {\n';
+            scss += '  $slope: ($max-size - $min-size) / ($max-vw - $min-vw);\n';
+            scss += '  $y-intercept: $min-size - $slope * $min-vw;\n';
+            scss += '  font-size: clamp(#{$min-size}, #{$y-intercept} + #{$slope * 100}vw, #{$max-size});\n';
+            scss += '}\n\n';
+            scss += '// Example:\n';
+            scss += '// h2 {\n';
+            scss += '//   @include fluid-type(1.5rem, 2.5rem);\n';
+            scss += '// }\n';
+        }
         
         // Update the code block
         $scssCode.text(scss);
