@@ -221,7 +221,7 @@ $(document).ready(function() {
             previewHtml += `
                 <div class="preview-item">
                     <span class="label">${fontSizeLabel}</span>
-                    <${el} class="preview-content" style="font-size: ${fontSizeValue}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px; font-family: ${selectedFont};">
+                    <${el} style="font-size: ${fontSizeValue}; line-height: ${lineHeight}; margin-bottom: ${marginBottom}px; font-family: ${selectedFont};">
                         ${getSampleText(el)}
                     </${el}>
                 </div>
