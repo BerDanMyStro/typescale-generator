@@ -1,0 +1,98 @@
+// ==========================================================================
+// MONOKAI THEME
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Code Container
+// --------------------------------------------------------------------------
+.code-container {
+    position: relative;
+}
+
+.code-block {
+    padding: $spacing-xl;
+    border-radius: $border-radius-lg;
+    background-color: $monokai-bg;
+    border: 1px solid $monokai-border;
+    overflow-x: auto;
+    font-size: 14px;
+    line-height: $line-height-code;
+}
+
+// Monokai Syntax Highlighting
+// --------------------------------------------------------------------------
+#scssCode {
+    background-color: $monokai-bg !important;
+    color: $monokai-text !important;
+    border: 1px solid $monokai-border !important;
+    text-shadow: none !important;
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: $monokai-comment;
+    }
+
+    .token.punctuation {
+        color: $monokai-text;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+        color: $monokai-property;
+    }
+
+    .token.boolean,
+    .token.number {
+        color: $monokai-number;
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+        color: $monokai-string;
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string,
+    .token.variable {
+        color: $monokai-text;
+        background: none;
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.function,
+    .token.class-name {
+        color: $monokai-function;
+    }
+
+    .token.keyword {
+        color: $monokai-keyword;
+    }
+
+    .token.regex,
+    .token.important {
+        color: $monokai-operator;
+    }
+
+    .token.important,
+    .token.bold {
+        font-weight: bold;
+    }
+
+    .token.italic {
+        font-style: italic;
+    }
+}

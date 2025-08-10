@@ -4,251 +4,181 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Type Scale Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="data:,">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-    <style>
-        /* Monokai Theme for SCSS Code Block */
-        #scssCode {
-            background-color: #272822 !important;
-            color: #f8f8f2 !important;
-            border: 1px solid #3e3d32 !important;
-        }
-        
-        #scssCode .token.comment,
-        #scssCode .token.prolog,
-        #scssCode .token.doctype,
-        #scssCode .token.cdata {
-            color: #75715e;
-        }
-        
-        #scssCode .token.punctuation {
-            color: #f8f8f2;
-        }
-        
-        #scssCode .token.property,
-        #scssCode .token.tag,
-        #scssCode .token.constant,
-        #scssCode .token.symbol,
-        #scssCode .token.deleted {
-            color: #f92672;
-        }
-        
-        #scssCode .token.boolean,
-        #scssCode .token.number {
-            color: #ae81ff;
-        }
-        
-        #scssCode .token.selector,
-        #scssCode .token.attr-name,
-        #scssCode .token.string,
-        #scssCode .token.char,
-        #scssCode .token.builtin,
-        #scssCode .token.inserted {
-            color: #a6e22e;
-        }
-        
-        #scssCode .token.operator,
-        #scssCode .token.entity,
-        #scssCode .token.url,
-        #scssCode .language-css .token.string,
-        #scssCode .style .token.string,
-        #scssCode .token.variable {
-            color: #f8f8f2;
-        }
-        
-        #scssCode .token.atrule,
-        #scssCode .token.attr-value,
-        #scssCode .token.function,
-        #scssCode .token.class-name {
-            color: #e6db74;
-        }
-        
-        #scssCode .token.keyword {
-            color: #66d9ef;
-        }
-        
-        #scssCode .token.regex,
-        #scssCode .token.important {
-            color: #fd971f;
-        }
-        
-        #scssCode .token.important,
-        #scssCode .token.bold {
-            font-weight: bold;
-        }
-        
-        #scssCode .token.italic {
-            font-style: italic;
-        }
-    </style>
+
 </head>
-<body class="bg-gray-50 min-h-screen">
-    <div class="container mx-auto max-w-7xl px-4 py-8">
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">Type Scale Generator</h1>
-            <p class="text-xl text-gray-600">Create beautiful, responsive typography with ease</p>
-        </header>
+<body>
+<div class="container">
+    <header>
+        <h1>Type Scale Generator</h1>
+        <p>Create beautiful, responsive typography with ease</p>
+    </header>
 
-        <div class="space-y-8">
-            <!-- Controls Section -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-6">Settings</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="space-y-2">
-                        <label for="baseFontSize" class="block text-sm font-medium text-gray-700">Base Size (px)</label>
-                        <input type="number" id="baseFontSize" value="16" min="8" max="32" 
-                               class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <label for="scaleFactor" class="block text-sm font-medium text-gray-700">Scale Factor</label>
-                        <select id="scaleFactor" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
-                            <option value="1.067">Minor Second (1.067)</option>
-                            <option value="1.125">Major Second (1.125)</option>
-                            <option value="1.200" selected>Major Third (1.200)</option>
-                            <option value="1.250">Major Third (1.250)</option>
-                            <option value="1.333">Perfect Fourth (1.333)</option>
-                            <option value="1.414">Augmented Fourth (1.414)</option>
-                            <option value="1.500">Perfect Fifth (1.500)</option>
-                            <option value="1.618">Golden Ratio (1.618)</option>
-                            <option value="custom">Custom...</option>
-                        </select>
-                        <input type="number" id="customScale" class="hidden block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border mt-2" step="0.001" min="1" max="2" value="1.2">
-                    </div>
+    <div class="main-content">
+        <!-- Controls Section -->
+        <div class="controls">
+            <h2>Settings</h2>
 
-                    <div class="space-y-2">
-                        <label for="fontFamily" class="block text-sm font-medium text-gray-700">Font Family</label>
-                        <select id="fontFamily" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
-                            <option value="Inter">Inter</option>
-                            <option value="Roboto">Roboto</option>
-                            <option value="Open Sans">Open Sans</option>
-                            <option value="Lato">Lato</option>
-                            <option value="Montserrat">Montserrat</option>
-                            <option value="Source Sans Pro">Source Sans Pro</option>
-                            <option value="Raleway">Raleway</option>
-                            <option value="Poppins">Poppins</option>
-                            <option value="Nunito">Nunito</option>
-                            <option value="PT Sans">PT Sans</option>
-                            <option value="Merriweather">Merriweather</option>
-                            <option value="Playfair Display">Playfair Display</option>
-                            <option value="Lora">Lora</option>
-                            <option value="Source Serif Pro">Source Serif Pro</option>
-                            <option value="Crimson Text">Crimson Text</option>
-                        </select>
-                    </div>
+            <div class="control-grid">
+                <div class="control-group">
+                    <label for="baseFontSize">Base Size (px)</label>
+                    <input type="number" id="baseFontSize" value="16" min="8" max="32"
+                           class="form-input">
                 </div>
 
-                <div class="mt-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-4">Preview Elements</label>
-                    <div class="flex flex-wrap gap-3">
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h1" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H1</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h2" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H2</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h3" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H3</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h4" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H4</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h5" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H5</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="h6" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">H6</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="p" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">Paragraph</span>
-                        </label>
-                        <label class="inline-flex items-center">
-                            <input type="checkbox" name="previewElements" value="small" checked class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <span class="ml-2 text-sm text-gray-700">Small</span>
-                        </label>
-                    </div>
+                <div class="control-group">
+                    <label for="scaleFactor">Scale Factor</label>
+                    <select id="scaleFactor" class="form-select">
+                        <option value="1.067">Minor Second (1.067)</option>
+                        <option value="1.125">Major Second (1.125)</option>
+                        <option value="1.200" selected>Major Third (1.200)</option>
+                        <option value="1.250">Major Third (1.250)</option>
+                        <option value="1.333">Perfect Fourth (1.333)</option>
+                        <option value="1.414">Augmented Fourth (1.414)</option>
+                        <option value="1.500">Perfect Fifth (1.500)</option>
+                        <option value="1.618">Golden Ratio (1.618)</option>
+                        <option value="custom">Custom...</option>
+                    </select>
+                    <input type="number" id="customScale" class="hidden form-input" step="0.001" min="1" max="2" value="1.2">
                 </div>
 
-                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label class="flex items-center">
-                        <input type="checkbox" id="unitToggle" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Use REM units</span>
-                    </label>
-                    
-                    <label class="flex items-center">
-                        <input type="checkbox" id="fluidToggle" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                        <span class="ml-3 text-sm font-medium text-gray-700">Enable fluid typography</span>
-                    </label>
-                </div>
-
-                <div id="fluidControls" class="hidden mt-6">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-2">
-                            <label for="minViewport" class="block text-sm font-medium text-gray-700">Min Viewport (px)</label>
-                            <input type="number" id="minViewport" value="320" min="280" max="1200" 
-                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
-                        </div>
-                        <div class="space-y-2">
-                            <label for="maxViewport" class="block text-sm font-medium text-gray-700">Max Viewport (px)</label>
-                            <input type="number" id="maxViewport" value="1200" min="320" max="2560" 
-                                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
-                        </div>
-                    </div>
-                    <p class="mt-2 text-sm text-gray-500">Font sizes will scale smoothly between viewport sizes</p>
+                <div class="control-group">
+                    <label for="fontFamily">Font Family</label>
+                    <select id="fontFamily" class="form-select">
+                        <option value="Inter">Inter</option>
+                        <option value="Roboto">Roboto</option>
+                        <option value="Open Sans">Open Sans</option>
+                        <option value="Lato">Lato</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Source Sans Pro">Source Sans Pro</option>
+                        <option value="Raleway">Raleway</option>
+                        <option value="Poppins">Poppins</option>
+                        <option value="Nunito">Nunito</option>
+                        <option value="PT Sans">PT Sans</option>
+                        <option value="Merriweather">Merriweather</option>
+                        <option value="Playfair Display">Playfair Display</option>
+                        <option value="Lora">Lora</option>
+                        <option value="Source Serif Pro">Source Serif Pro</option>
+                        <option value="Crimson Text">Crimson Text</option>
+                    </select>
                 </div>
             </div>
 
-            <!-- Preview Section -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h2 class="text-2xl font-semibold text-gray-900 mb-6">Preview</h2>
-                <div id="typePreview" class="space-y-6">
-                    <!-- Preview elements will be inserted here by JavaScript -->
+            <div class="preview-elements">
+                <label class="section-label">Preview Elements</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h1" checked class="checkbox">
+                        <span>H1</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h2" checked class="checkbox">
+                        <span>H2</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h3" checked class="checkbox">
+                        <span>H3</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h4" checked class="checkbox">
+                        <span>H4</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h5" checked class="checkbox">
+                        <span>H5</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="h6" checked class="checkbox">
+                        <span>H6</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="p" checked class="checkbox">
+                        <span>Body Text</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="previewElements" value="small" class="checkbox">
+                        <span>Small Text</span>
+                    </label>
                 </div>
+            </div>
+
+            <div class="fluid-controls-section">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="enableFluid" class="checkbox">
+                    <span>Enable Fluid Typography</span>
+                </label>
+                <div class="setting-note">Uses clamp() function for responsive scaling</div>
+            </div>
+
+            <div id="fluidControls" class="hidden fluid-grid">
+                <div class="viewport-controls">
+                    <div class="control-group">
+                        <label for="minViewport">Min Viewport (px)</label>
+                        <input type="number" id="minViewport" value="320" min="280" max="1200"
+                               class="form-input">
+                    </div>
+                    <div class="control-group">
+                        <label for="maxViewport">Max Viewport (px)</label>
+                        <input type="number" id="maxViewport" value="1200" min="800" max="2560"
+                               class="form-input">
+                    </div>
+                </div>
+                <p class="info-text">Font sizes will scale smoothly between viewport sizes</p>
             </div>
         </div>
 
-        <!-- Export Section -->
-        <div class="mt-8 bg-white rounded-xl shadow-lg p-8">
-            <h2 class="text-2xl font-semibold text-gray-900 mb-6">SCSS Variables</h2>
-            <div class="relative">
-                <pre id="scssCode" class="language-scss bg-gray-50 rounded-lg p-6 overflow-x-auto text-sm border">
+        <!-- Preview Section -->
+        <div class="preview-section">
+            <h2>Preview</h2>
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <!-- Export Section -->
+    <div class="export-section">
+        <h2>SCSS Variables</h2>
+        <div class="code-container">
+                <pre id="scssCode" class="language-scss code-block">
 // Type Scale Variables
 $base-font-size: 16px;
 $scale-factor: 1.2;
 
 // Type Scale Map
 $type-scale: (
-  h1: 3.815rem,
-  h2: 3.052rem,
-  h3: 2.441rem,
-  h4: 1.953rem,
-  h5: 1.563rem,
-  h6: 1.25rem,
-  p: 1rem,
-  small: 0.8rem
+  'xs': 0.75rem,    // 12px
+  'sm': 0.875rem,   // 14px
+  'base': 1rem,     // 16px
+  'lg': 1.125rem,   // 18px
+  'xl': 1.25rem,    // 20px
+  '2xl': 1.5rem,    // 24px
+  '3xl': 1.875rem,  // 30px
+  '4xl': 2.25rem,   // 36px
+  '5xl': 3rem,      // 48px
+  '6xl': 3.75rem,   // 60px
 );
 
-// Usage Example:
-// h1 { font-size: map-get($type-scale, h1); }</pre>
-                <button id="copyScss" class="absolute top-6 right-6 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-md text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Copy SCSS</button>
-            </div>
+// Usage examples:
+// font-size: map-get($type-scale, 'lg');
+// or with a mixin:
+@mixin font-scale($size) {
+  font-size: map-get($type-scale, $size);
+}
+                </pre>
+            <button id="copyCode" class="copy-button">
+                Copy to Clipboard
+            </button>
         </div>
     </div>
+</div>
 
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

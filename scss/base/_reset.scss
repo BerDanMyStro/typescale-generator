@@ -1,0 +1,58 @@
+// ==========================================================================
+// RESET
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Box Model Reset
+// --------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+// Body Defaults
+// --------------------------------------------------------------------------
+body {
+    font-family: $font-family-base;
+    line-height: $line-height-base;
+    color: $color-gray-900;
+    background-color: $color-gray-50;
+    padding: 2rem 1rem;
+}
+
+// Remove default list styles
+// --------------------------------------------------------------------------
+ul,
+ol {
+    list-style: none;
+}
+
+// Remove default button styles
+// --------------------------------------------------------------------------
+button {
+    background: none;
+    border: none;
+    font: inherit;
+    cursor: pointer;
+}
+
+// Remove default input styles
+// --------------------------------------------------------------------------
+input,
+select,
+textarea {
+    font: inherit;
+    background: none;
+    border: none;
+}
+
+// Remove default anchor styles
+// --------------------------------------------------------------------------
+a {
+    color: inherit;
+    text-decoration: none;
+}

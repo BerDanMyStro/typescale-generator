@@ -1,0 +1,40 @@
+// ==========================================================================
+// GRID
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Control Grid
+// --------------------------------------------------------------------------
+.control-grid {
+    @include grid-responsive(300px);
+    margin-bottom: $spacing-xl;
+
+    @include mobile-down {
+        grid-template-columns: 1fr;
+    }
+}
+
+// Fluid Grid
+// --------------------------------------------------------------------------
+.fluid-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-xl;
+    margin-top: $spacing-lg;
+}
+
+// Viewport Controls
+// --------------------------------------------------------------------------
+.viewport-controls {
+    display: flex;
+    gap: $spacing-xl;
+}
+
+// Checkbox Group
+// --------------------------------------------------------------------------
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-lg;
+}

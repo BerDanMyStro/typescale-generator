@@ -4,8 +4,8 @@
   "description": "A tool for generating responsive typography scales",
   "main": "index.js",
   "scripts": {
-    "build:css": "sass css/styles.scss css/styles.css",
-    "watch:css": "sass --watch css/styles.scss:css/styles.css",
+    "build:css": "sass scss/styles.scss css/styles.css",
+    "watch:css": "sass --watch scss/styles.scss:css/styles.css",
     "start": "live-server"
   },
   "private": true,

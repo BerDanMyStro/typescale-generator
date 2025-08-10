@@ -1,0 +1,24 @@
+// ==========================================================================
+// BUTTONS
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Copy Button
+// --------------------------------------------------------------------------
+.copy-button {
+    @include button-base;
+    position: absolute;
+    top: $spacing-xl;
+    right: $spacing-xl;
+    background-color: $color-success;
+    color: $color-white;
+    padding: $spacing-sm $spacing-lg;
+    font-size: 14px;
+    border-radius: $border-radius;
+    transition: background-color $transition-base;
+
+    &:hover {
+        background-color: $color-success-hover;
+    }
+}

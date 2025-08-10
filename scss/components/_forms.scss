@@ -1,0 +1,74 @@
+// ==========================================================================
+// FORMS
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Form Elements Base
+// --------------------------------------------------------------------------
+.form-input,
+.form-select {
+    @include form-element;
+    background-color: $color-white;
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right $spacing-md center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+}
+
+// Control Group
+// --------------------------------------------------------------------------
+.control-group {
+    margin-bottom: $spacing-xl;
+
+    label {
+        display: block;
+        margin-bottom: $spacing-xs;
+        font-weight: $font-weight-medium;
+        color: $color-gray-700;
+    }
+}
+
+// Checkbox Elements
+// --------------------------------------------------------------------------
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-normal;
+
+    span {
+        margin-left: $spacing-sm;
+    }
+}
+
+.checkbox {
+    margin-right: $spacing-sm;
+    cursor: pointer;
+}
+
+// Section Labels
+// --------------------------------------------------------------------------
+.section-label {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-md;
+    display: block;
+    color: $color-primary;
+}
+
+// Setting Notes
+// --------------------------------------------------------------------------
+.setting-note,
+.info-text {
+    font-size: $font-size-sm;
+    color: $color-gray-600;
+    margin-top: $spacing-xs;
+    font-style: italic;
+}

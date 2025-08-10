@@ -1,0 +1,32 @@
+// ==========================================================================
+// CARDS
+// ==========================================================================
+
+@use '../abstracts' as *;
+
+// Base Card
+// --------------------------------------------------------------------------
+.controls,
+.preview-section,
+.export-section {
+    @include card;
+    margin-top: $spacing-xl;
+
+    h2 {
+        color: $color-primary;
+        margin-bottom: $spacing-xl;
+        font-size: $font-size-xl;
+    }
+}
+
+// Preview Elements Section
+// --------------------------------------------------------------------------
+.preview-elements {
+    margin-top: $spacing-xl;
+}
+
+// Fluid Controls Section
+// --------------------------------------------------------------------------
+.fluid-controls-section {
+    margin-top: $spacing-xl;
+}

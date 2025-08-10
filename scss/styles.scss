@@ -1,0 +1,22 @@
+// ==========================================================================
+// MAIN STYLES
+// ==========================================================================
+// Modern SCSS Architecture using @use and @forward
+// 
+// Structure:
+// - abstracts/     Variables, mixins, functions
+// - base/          Reset, typography, base styles  
+// - layout/        Grid, container, layout components
+// - components/    UI components (forms, cards, buttons)
+// - themes/        Color themes and syntax highlighting
+// - utilities/     Helper classes and utilities
+//
+// ==========================================================================
+
+// Import all modules using @use directive
+@use 'abstracts';
+@use 'base';
+@use 'layout'; 
+@use 'components';
+@use 'themes';
+@use 'utilities';

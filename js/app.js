@@ -6,13 +6,13 @@ $(document).ready(function() {
     const $fontFamily = $('#fontFamily');
     const $previewElements = $('input[name="previewElements"]');
     const $unitToggle = $('#unitToggle');
-    const $fluidToggle = $('#fluidToggle');
+    const $fluidToggle = $('#enableFluid');
     const $fluidControls = $('#fluidControls');
     const $minViewport = $('#minViewport');
     const $maxViewport = $('#maxViewport');
-    const $typePreview = $('#typePreview');
+    const $typePreview = $('#preview');
     const $scssCode = $('#scssCode');
-    const $copyButton = $('#copyScss');
+    const $copyButton = $('#copyCode');
     
     // Default values
     let baseFontSize = parseFloat($baseFontSize.val());

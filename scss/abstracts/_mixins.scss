@@ -1,0 +1,68 @@
+// ==========================================================================
+// MIXINS
+// ==========================================================================
+
+@use 'variables' as *;
+
+// Focus Ring Mixin
+// --------------------------------------------------------------------------
+@mixin focus-ring($color: $color-primary) {
+    outline: none;
+    border-color: $color;
+    box-shadow: 0 0 0 2px rgba($color, 0.2);
+}
+
+// Button Mixin
+// --------------------------------------------------------------------------
+@mixin button-base {
+    border: none;
+    cursor: pointer;
+    font-size: $font-size-base;
+    padding: $spacing-sm $spacing-lg;
+    border-radius: $border-radius;
+    transition: background-color $transition-base;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+}
+
+// Form Element Mixin
+// --------------------------------------------------------------------------
+@mixin form-element {
+    padding: $spacing-md;
+    border: 1px solid $color-gray-200;
+    border-radius: $border-radius;
+    width: 100%;
+    font-size: $font-size-base;
+    transition: border-color $transition-base;
+
+    &:focus {
+        @include focus-ring($color-primary);
+    }
+}
+
+// Card Mixin
+// --------------------------------------------------------------------------
+@mixin card {
+    background-color: $color-white;
+    padding: $spacing-2xl;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow;
+}
+
+// Grid Responsive Mixin
+// --------------------------------------------------------------------------
+@mixin grid-responsive($min-width: 300px) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax($min-width, 1fr));
+    gap: $spacing-xl;
+}
+
+// Media Query Mixins
+// --------------------------------------------------------------------------
+@mixin mobile-down {
+    @media (max-width: $breakpoint-mobile) {
+        @content;
+    }
+}
