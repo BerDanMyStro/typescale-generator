@@ -111,6 +111,23 @@ small {
   gap: 15px;
 }
 
+header .logoWrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 24px;
+  align-items: center;
+  padding: 0;
+}
+header .logoWrapper svg {
+  max-width: 80px;
+}
+header .logoWrapper .alignWrapper {
+  width: calc(80% - 100px);
+}
+header .logoWrapper .alignWrapper p {
+  margin: 0;
+}
+
 .form-input,
 .form-select {
   padding: 10px;
